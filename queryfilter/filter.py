@@ -32,7 +32,7 @@ class QueryFilter(object):
         self.ORDER_BY = []  # default order_by
         self.SORT_DIRECTION = []  # default SORT_DIRECTION
         self.model = model
-        self.regex_link = "^(" + '|'.join(self.LINKS_KEYWORDS) + ")$"
+        self.regex_link = "^(" + '|'.join(self.LINKS_KEYWORDS) + ")"
         self.regex_filter = "^(" + '|'.join(self.OPERATOR_KEYWORDS) + ")$"
         self.queries = []
 
