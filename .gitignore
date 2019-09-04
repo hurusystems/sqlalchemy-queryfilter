@@ -19,6 +19,9 @@ lib/
 lib64/
 parts/
 sdist/
+.vscode/
+.venv/
+.autoenv
 var/
 wheels/
 *.egg-info/
