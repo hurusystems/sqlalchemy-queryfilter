@@ -14,6 +14,7 @@ class QueryFilter(object):
     LINKS_KEYWORDS = ['or', 'and']
     DEFAULT_LINK = 'and'
     DEFAULT_OPERATOR = 'like'
+
     ORDER_BY = []
     ORDER_BY_KEYWORD = 'sort_field'
     ORDER_BY_SORT_DIRECTION = 'sort_direction'
@@ -35,7 +36,7 @@ class QueryFilter(object):
         self.regex_filter = "^(" + '|'.join(self.OPERATOR_KEYWORDS) + ")$"
         self.queries = []
 
-    def get_version():
+    def get_version(self):
         return self.__version__
 
     def null2none(self, value):
