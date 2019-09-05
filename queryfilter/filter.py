@@ -3,6 +3,7 @@ from __future__ import absolute_import
 
 import re
 from sqlalchemy import and_, or_, asc, desc
+from .exceptions import InvalidDialectField, InvalidField
 import dateutil.parser as parser
 
 
@@ -33,7 +34,7 @@ class QueryFilter(object):
         self.SORT_DIRECTION = []  # default SORT_DIRECTION
         self.model = model
         self.regex_link = "^(" + '|'.join(self.LINKS_KEYWORDS) + ")"
-        self.regex_filter = "^(" + '|'.join(self.OPERATOR_KEYWORDS) + ")$"
+        self.regex_filter = "(" + '|'.join(self.OPERATOR_KEYWORDS) + ")$"
         self.queries = []
 
     def get_version(self):
@@ -111,6 +112,7 @@ class QueryFilter(object):
         for item in self.queries:
             if not item['value'] and item['op'] in ['ilike', 'like']:
                 item['op'] = 'is_'
+                item['value'] = None
             elif item['op'] in ['ilike', 'like']:
                 item['value'] += '%'
 
