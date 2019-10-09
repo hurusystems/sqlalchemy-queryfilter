@@ -7,9 +7,11 @@ from setuptools.command.test import test as TestCommand
 import queryfilter
 
 tests_requires = [
-    'pytest==3.0.3',
-    'pytest-cov==2.4.0',
+    'pytest',
+    'pytest-cov',
 ]
+
+requires = open('./requirements.txt').readlines()
 
 
 class PyTest(TestCommand):
@@ -27,16 +29,15 @@ class PyTest(TestCommand):
 
 def readme():
     try:
-        os.system('pandoc --from=markdown --to=rst README.md -o README.rst')
-        with open('README.rst') as f:
+        with open('README.md') as f:
             return f.read()
     except:
-        return '''PyConst one simple way to organize the constants'''
+        return '''Sqlalchemy Queryfilter create default process to use REST filters'''
 
 
 setup(name='sqlalchemy_queryfilter',
       url='https://github.com/valdergallo/sqlalchemy_queryfilter',
-      download_url='https://github.com/valdergallo/sqlalchemy_queryfilter/tarball/%s/' % pyconst.get_version(),
+      download_url='https://github.com/valdergallo/sqlalchemy_queryfilter/tarball/%s/' % queryfilter.get_version(),
       author="valdergallo",
       author_email='valdergallo@gmail.com',
       keywords=['api', 'sqlalchemy', 'queryfilter', 'rest'],
@@ -58,6 +59,7 @@ setup(name='sqlalchemy_queryfilter',
       include_package_data=True,
       version=queryfilter.get_version(),
       tests_require=tests_requires,
+      require=requires,
       cmdclass={'test': PyTest},
       packages=['queryfilter'],
       zip_safe=False,

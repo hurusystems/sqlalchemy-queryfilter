@@ -1,21 +1,19 @@
-# -*- coding: utf-8 -*-
-from __future__ import absolute_import
+# encoding: utf-8
+from __future__ import unicode_literals, absolute_import
 
 import re
-from sqlalchemy import and_, or_, asc, desc
+from sqlalchemy import and_, or_, asc, desc, extract
 from .exceptions import InvalidDialectField, InvalidField
 import dateutil.parser as parser
 
 
 class QueryFilter(object):
-    __version__ = "0.0.1"
-
     FILTER_MARK = r'\[(.*?)\]'
-    OPERATOR_KEYWORDS = ['like', 'ilike', 'gt', 'gte', 'lt', 'lte', 'equal', 'is_', 'isnot', 'in_', 'notin','any']
+    OPERATOR_KEYWORDS = ['like', 'ilike', 'gt', 'gte', 'lt', 'month', 'year',
+                         'lte', 'equal', 'is_', 'isnot', 'in_', 'notin', 'any']
     LINKS_KEYWORDS = ['or', 'and']
     DEFAULT_LINK = 'and'
     DEFAULT_OPERATOR = 'like'
-
     ORDER_BY = []
     ORDER_BY_KEYWORD = 'sort_field'
     ORDER_BY_SORT_DIRECTION = 'sort_direction'
@@ -33,12 +31,9 @@ class QueryFilter(object):
         self.ORDER_BY = []  # default order_by
         self.SORT_DIRECTION = []  # default SORT_DIRECTION
         self.model = model
-        self.regex_link = "^(" + '|'.join(self.LINKS_KEYWORDS) + ")"
-        self.regex_filter = "(" + '|'.join(self.OPERATOR_KEYWORDS) + ")$"
+        self.regex_link = '|'.join(self.LINKS_KEYWORDS)
+        self.regex_filter = '|'.join(self.OPERATOR_KEYWORDS)
         self.queries = []
-
-    def get_version(self):
-        return self.__version__
 
     def null2none(self, value):
         """SQL translate values"""
@@ -61,15 +56,17 @@ class QueryFilter(object):
         search_text = search_text[0]
 
         _link = re.findall(self.regex_link, search_text) or [self.DEFAULT_LINK]
-        _filter = re.findall(
-            self.regex_filter, search_text) or [self.DEFAULT_OPERATOR]
+        _filter = re.findall(self.regex_filter, search_text) or [
+            self.DEFAULT_OPERATOR]
+
         return {'op': _filter[0], 'link': _link[0], 'field': table_field}
 
     def add(self, table_field, value):
         if table_field == self.ORDER_BY_KEYWORD:
             model_field = hasattr(self.model, value)
             if not model_field:
-                raise InvalidField('Invalid table field (%s) in order_by' % value)
+                raise InvalidField(
+                    'Invalid table field (%s) in order_by' % value)
             self.ORDER_BY.append(value)
             # save order by and dont chanche queries
             return
@@ -110,24 +107,31 @@ class QueryFilter(object):
         invalid_operators = ['gt', 'gte', 'lt', 'lte', 'equal']
 
         for item in self.queries:
-            if not item['value'] and item['op'] in ['ilike', 'like']:
+            print('DEBUG ITEM ', item)
+
+            if (not item['value'] or item['value'].lower() == 'none' or item['value'].lower() == 'null') and item['op'] in ['ilike', 'like']:
                 item['op'] = 'is_'
                 item['value'] = None
             elif item['op'] in ['ilike', 'like']:
-                item['value'] += '%'
+                item['value'] = '%{v}%'.format(v=item['value'])
 
             if item['op'] not in invalid_operators and hasattr(item['field'], item['op']):
                 func_operator = getattr(item['field'], item['op'])
             elif item['op'] == 'gt':
-                func_operator = lambda x: item['field'] > x
+                def func_operator(x): return item['field'] > x
             elif item['op'] == 'gte':
-                func_operator = lambda x: item['field'] >= x
+                def func_operator(x): return item['field'] >= x
             elif item['op'] == 'lt':
-                func_operator = lambda x: item['field'] < x
+                def func_operator(x): return item['field'] < x
             elif item['op'] == 'lte':
-                func_operator = lambda x: item['field'] <= x
+                def func_operator(x): return item['field'] <= x
             elif item['op'] == 'equal':
-                func_operator = lambda x: item['field'] == x
+                def func_operator(x): return item['field'] == x
+            elif item['op'] == 'month':
+                def func_operator(x): return extract('month', item['field']) == x
+            elif item['op'] == 'year':
+                def func_operator(x): return extract(
+                    'year', item['field']) == x
             else:
                 func_operator = None
 
