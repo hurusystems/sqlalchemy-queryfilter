@@ -1,3 +1,5 @@
+# encoding: utf-8
+from __future__ import unicode_literals, absolute_import
 from .models import Table
 
 def test_a_transaction(db_session):

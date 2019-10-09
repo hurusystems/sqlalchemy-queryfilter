@@ -36,8 +36,8 @@ def readme():
 
 
 setup(name='sqlalchemy_queryfilter',
-      url='https://github.com/valdergallo/sqlalchemy_queryfilter',
-      download_url='https://github.com/valdergallo/sqlalchemy_queryfilter/tarball/%s/' % queryfilter.get_version(),
+      url='https://git.in.hurusystems.com/huru/huru_sqlalchemy_queryfilter.git',
+      download_url='https://git.in.hurusystems.com/huru/huru_sqlalchemy_queryfilter/tarball/%s/' % queryfilter.get_version(),
       author="valdergallo",
       author_email='valdergallo@gmail.com',
       keywords=['api', 'sqlalchemy', 'queryfilter', 'rest'],
