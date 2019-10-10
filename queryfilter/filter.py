@@ -32,7 +32,6 @@ class QueryFilter(object):
         self.SORT_DIRECTION = []  # default SORT_DIRECTION
         self.model = model
         self.regex_link = '|'.join(self.LINKS_KEYWORDS)
-        self.regex_filter = '|'.join(self.OPERATOR_KEYWORDS)
         self.queries = []
 
     def null2none(self, value):
@@ -40,6 +39,13 @@ class QueryFilter(object):
         if value == 'null':
             return None
         return value
+
+    def find_operator(self, value):
+        try:
+            i = self.OPERATOR_KEYWORDS.index(value)
+            return self.OPERATOR_KEYWORDS[i]
+        except ValueError:
+            return
 
     def get_field(self, table_field):
         """remove query from table field name"""
@@ -56,10 +62,9 @@ class QueryFilter(object):
         search_text = search_text[0]
 
         _link = re.findall(self.regex_link, search_text) or [self.DEFAULT_LINK]
-        _filter = re.findall(self.regex_filter, search_text) or [
-            self.DEFAULT_OPERATOR]
+        _filter = self.find_operator(search_text) or self.DEFAULT_OPERATOR
 
-        return {'op': _filter[0], 'link': _link[0], 'field': table_field}
+        return {'op': _filter, 'link': _link[0], 'field': table_field}
 
     def add(self, table_field, value):
         if table_field == self.ORDER_BY_KEYWORD:
@@ -140,10 +145,12 @@ class QueryFilter(object):
             if not func_operator:
                 raise InvalidDialectField(
                     "Invalid SqlAlchemy Dialects operation: (%s) for field (%s)" % (item['op'], item['field']))
+
             if item['link'] == 'and':
                 and_query.append(func_operator(item['value']))
             if item['link'] == 'or':
                 or_query.append(func_operator(item['value']))
+
         qr = self.model.query.filter(
             and_(*and_query), or_(*or_query)).order_by(*self.get_order_by())
 
