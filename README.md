@@ -3,6 +3,10 @@
 Queryfilter is a small ORM to read arguments URL and make SQL
 query
 
+### TO Install
+
+> pip install git+https://git.in.hurusystems.com/huru/huru_sqlalchemy_queryfilter.git#egg=queryfilter
+
 ### HOW TO USE
 
 ```python
