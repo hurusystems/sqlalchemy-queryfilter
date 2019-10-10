@@ -8,6 +8,7 @@ import pytest
 def item(db_session):
     row = Table()
     row.name = 'testing'
+    row.description = 'testing'
 
     db_session.add(row)
     db_session.commit()
