@@ -34,3 +34,8 @@ def test_invalid_find_operator(item):
 def test_get_field(field):
     qry = QueryFilter(model=Table)
     assert qry.get_field(field) == 'name'
+
+
+def test_get_valid_field(field):
+    qry = QueryFilter(model=Table, valid_fields=['name', 'description'])
+    assert qry.get_field(field) == 'name'

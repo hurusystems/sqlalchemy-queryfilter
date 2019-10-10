@@ -17,3 +17,9 @@ def test_error_get_invalid_operator(item):
     qry.add('name[notin]', 'test')
     with pytest.raises(InvalidDialectField):
         qry.query()
+
+
+def test_error_get_invalid_field_in_order_by(item):
+    qry = QueryFilter(model=Table)
+    with pytest.raises(InvalidField):
+        qry.add('sort_field', 'invalidField')

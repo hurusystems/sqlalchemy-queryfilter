@@ -182,3 +182,35 @@ def test_queryfilter_by_notin_(item):
         "WHERE \"table\".name NOT IN (?, ?)"
 
     assert qry.sql == sql_expected
+
+
+def test_queryfilter_order_by_defalt_asc(item):
+    qry = QueryFilter(model=Table)
+    qry.add('sort_field', 'name')
+
+    sql_expected = SQL[:-1] + \
+        "ORDER BY \"table\".name ASC"
+
+    assert qry.sql == sql_expected
+
+
+def test_queryfilter_order_by_asc(item):
+    qry = QueryFilter(model=Table)
+    qry.add('sort_field', 'name')
+    qry.add('sort_direction', 'asc')
+
+    sql_expected = SQL[:-1] + \
+        "ORDER BY \"table\".name ASC"
+
+    assert qry.sql == sql_expected
+
+
+def test_queryfilter_order_by_desc(item):
+    qry = QueryFilter(model=Table)
+    qry.add('sort_field', 'name')
+    qry.add('sort_direction', 'desc')
+
+    sql_expected = SQL[:-1] + \
+        "ORDER BY \"table\".name DESC"
+
+    assert qry.sql == sql_expected
