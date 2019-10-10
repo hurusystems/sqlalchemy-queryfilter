@@ -33,3 +33,13 @@ def test_queryfilter_by_name_or_description(item):
         'WHERE ("table".name LIKE ? OR "table".description LIKE ?)'
 
     assert qry.sql == sql_expected
+
+
+def test_queryfilter_by_month(item):
+    qry = QueryFilter(model=Table)
+    qry.add('created_date[month]', '1')
+
+    sql_expected = SQL + \
+        "WHERE CAST(STRFTIME('%m', \"table\".created_date) AS INTEGER) = ?"
+
+    assert qry.sql == sql_expected

@@ -22,6 +22,7 @@ sdist/
 .vscode/
 .venv/
 .autoenv
+htmlcov/
 var/
 wheels/
 *.egg-info/
