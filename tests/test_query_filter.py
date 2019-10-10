@@ -93,3 +93,83 @@ def test_queryfilter_by_gte(item):
         "WHERE \"table\".created_date >= ?"
 
     assert qry.sql == sql_expected
+
+
+def test_queryfilter_by_like(item):
+    qry = QueryFilter(model=Table)
+    qry.add('created_date[like]', '1999-09-09')
+
+    sql_expected = SQL + \
+        "WHERE \"table\".created_date LIKE ?"
+
+    assert qry.sql == sql_expected
+
+
+def test_queryfilter_by_ilike(item):
+    qry = QueryFilter(model=Table)
+    qry.add('name[ilike]', '1999-09-09')
+
+    sql_expected = SQL + \
+        "WHERE lower(\"table\".name) LIKE lower(?)"
+
+    assert qry.sql == sql_expected
+
+
+def test_queryfilter_by_equal(item):
+    qry = QueryFilter(model=Table)
+    qry.add('name[equal]', '1999-09-09')
+
+    sql_expected = SQL + \
+        "WHERE \"table\".name = ?"
+
+    assert qry.sql == sql_expected
+
+
+def test_queryfilter_by_isnot(item):
+    qry = QueryFilter(model=Table)
+    qry.add('name[isnot]', None)
+
+    sql_expected = SQL + \
+        "WHERE \"table\".name IS NOT NULL"
+
+    assert qry.sql == sql_expected
+
+
+def test_queryfilter_by_is_(item):
+    qry = QueryFilter(model=Table)
+    qry.add('name[is_]', None)
+
+    sql_expected = SQL + \
+        "WHERE \"table\".name IS NULL"
+
+    assert qry.sql == sql_expected
+
+
+def test_queryfilter_by_is_none(item):
+    qry = QueryFilter(model=Table)
+    qry.add('name', 'none')
+
+    sql_expected = SQL + \
+        "WHERE \"table\".name IS NULL"
+
+    assert qry.sql == sql_expected
+
+
+def test_queryfilter_by_in_(item):
+    qry = QueryFilter(model=Table)
+    qry.add('name[in_]', 'ab')
+
+    sql_expected = SQL + \
+        "WHERE \"table\".name IN (?, ?)"
+
+    assert qry.sql == sql_expected
+
+
+def test_queryfilter_by_notin_(item):
+    qry = QueryFilter(model=Table)
+    qry.add('name[notin_]', 'ab')
+
+    sql_expected = SQL + \
+        "WHERE \"table\".name NOT IN (?, ?)"
+
+    assert qry.sql == sql_expected

@@ -9,8 +9,8 @@ import dateutil.parser as parser
 
 class QueryFilter(object):
     FILTER_MARK = r'\[(.*?)\]'
-    OPERATOR_KEYWORDS = ['lte', 'gte', 'like', 'ilike', 'gt',  'lt', 'month', 'year',
-                          'equal', 'is_', 'isnot', 'in_', 'notin', 'any']
+    OPERATOR_KEYWORDS = ['notin_', 'lte', 'gte', 'like', 'ilike', 'gt',  'lt', 'month', 'year',
+                          'equal', 'is_', 'isnot', 'in_', 'any']
     LINKS_KEYWORDS = ['or', 'and']
     DEFAULT_LINK = 'and'
     DEFAULT_OPERATOR = 'like'
@@ -116,6 +116,7 @@ class QueryFilter(object):
                 item['value'] = '%{v}%'.format(v=item['value'])
 
             if item['op'] not in invalid_operators and hasattr(item['field'], item['op']):
+                # get default operator from sqlalchemy (in_, is_)
                 func_operator = getattr(item['field'], item['op'])
             elif item['op'] == 'gt':
                 def func_operator(x): return item['field'] > x
