@@ -1,14 +1,11 @@
 # encoding: utf-8
 from __future__ import unicode_literals, absolute_import
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String
+from app import db
 
 
-BaseModel = declarative_base()
-
-
-class Table(BaseModel):
+class Table(db.Model):
     __tablename__ = 'table'
-    id = Column(Integer, primary_key=True)
-    name = Column(String(80))
-
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(80))
+    description = db.Column(db.String(80))
+    created_date = db.Column(db.DateTime, default=db.func.now())

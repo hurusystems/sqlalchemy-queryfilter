@@ -107,7 +107,7 @@ class QueryFilter(object):
         invalid_operators = ['gt', 'gte', 'lt', 'lte', 'equal']
 
         for item in self.queries:
-            print('DEBUG ITEM ', item)
+            # print('DEBUG ITEM ', item)
 
             if (not item['value'] or item['value'].lower() == 'none' or item['value'].lower() == 'null') and item['op'] in ['ilike', 'like']:
                 item['op'] = 'is_'

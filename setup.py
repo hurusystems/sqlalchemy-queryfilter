@@ -9,6 +9,7 @@ import queryfilter
 tests_requires = [
     'pytest',
     'pytest-cov',
+    'pytest-flask-sqlalchemy',
 ]
 
 requires = open('./requirements.txt').readlines()

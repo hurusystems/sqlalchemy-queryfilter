@@ -1,19 +1,18 @@
-from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 import pytest
-from tests.models import BaseModel
+import app
 
 
 @pytest.fixture(scope='session')
 def engine():
-    return create_engine('sqlite://')
+    return app.db.engine
 
 
 @pytest.yield_fixture(scope='session')
 def tables(engine):
-    BaseModel.metadata.create_all(engine)
+    app.db.metadata.create_all(engine)
     yield
-    BaseModel.metadata.drop_all(engine)
+    app.db.metadata.drop_all(engine)
 
 
 @pytest.yield_fixture
