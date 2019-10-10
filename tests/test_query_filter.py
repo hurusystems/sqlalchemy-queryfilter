@@ -3,6 +3,7 @@ from .models import Table
 
 SQL = 'SELECT "table".id AS table_id, "table".name AS table_name, "table".description AS table_description, "table".created_date AS table_created_date \nFROM "table" \n'
 
+
 def test_queryfilter_by_name(item):
     qry = QueryFilter(model=Table)
     qry.add('name', 'test')
