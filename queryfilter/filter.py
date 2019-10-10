@@ -9,8 +9,8 @@ import dateutil.parser as parser
 
 class QueryFilter(object):
     FILTER_MARK = r'\[(.*?)\]'
-    OPERATOR_KEYWORDS = ['like', 'ilike', 'gt', 'gte', 'lt', 'month', 'year',
-                         'lte', 'equal', 'is_', 'isnot', 'in_', 'notin', 'any']
+    OPERATOR_KEYWORDS = ['lte', 'gte', 'like', 'ilike', 'gt',  'lt', 'month', 'year',
+                          'equal', 'is_', 'isnot', 'in_', 'notin', 'any']
     LINKS_KEYWORDS = ['or', 'and']
     DEFAULT_LINK = 'and'
     DEFAULT_OPERATOR = 'like'

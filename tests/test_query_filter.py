@@ -43,3 +43,53 @@ def test_queryfilter_by_month(item):
         "WHERE CAST(STRFTIME('%m', \"table\".created_date) AS INTEGER) = ?"
 
     assert qry.sql == sql_expected
+
+
+def test_queryfilter_by_year(item):
+    qry = QueryFilter(model=Table)
+    qry.add('created_date[year]', '1')
+
+    sql_expected = SQL + \
+        "WHERE CAST(STRFTIME('%Y', \"table\".created_date) AS INTEGER) = ?"
+
+    assert qry.sql == sql_expected
+
+
+def test_queryfilter_by_lt(item):
+    qry = QueryFilter(model=Table)
+    qry.add('created_date[lt]', '1999-09-09')
+
+    sql_expected = SQL + \
+        "WHERE \"table\".created_date < ?"
+
+    assert qry.sql == sql_expected
+
+
+def test_queryfilter_by_lte(item):
+    qry = QueryFilter(model=Table)
+    qry.add('created_date[lte]', '1999-09-09')
+
+    sql_expected = SQL + \
+        "WHERE \"table\".created_date <= ?"
+
+    assert qry.sql == sql_expected
+
+
+def test_queryfilter_by_gt(item):
+    qry = QueryFilter(model=Table)
+    qry.add('created_date[gt]', '1999-09-09')
+
+    sql_expected = SQL + \
+        "WHERE \"table\".created_date > ?"
+
+    assert qry.sql == sql_expected
+
+
+def test_queryfilter_by_gte(item):
+    qry = QueryFilter(model=Table)
+    qry.add('created_date[gte]', '1999-09-09')
+
+    sql_expected = SQL + \
+        "WHERE \"table\".created_date >= ?"
+
+    assert qry.sql == sql_expected
