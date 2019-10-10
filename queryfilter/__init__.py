@@ -10,12 +10,15 @@ def get_version():
 
 from .filter import (
     QueryFilter,
-    paginate_request,
-    query_manager,
-    get_paginate_display
 )
 
 from .exceptions import (
     InvalidField,
     InvalidDialectField
+)
+
+from .helper import (
+    paginate_request,
+    query_manager,
+    get_paginate_display
 )
