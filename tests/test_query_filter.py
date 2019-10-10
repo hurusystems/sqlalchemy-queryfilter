@@ -155,6 +155,16 @@ def test_queryfilter_by_is_none(item):
     assert qry.sql == sql_expected
 
 
+def test_queryfilter_by_is_null(item):
+    qry = QueryFilter(model=Table)
+    qry.add('name', 'null')
+
+    sql_expected = SQL + \
+        "WHERE \"table\".name IS NULL"
+
+    assert qry.sql == sql_expected
+
+
 def test_queryfilter_by_in_(item):
     qry = QueryFilter(model=Table)
     qry.add('name[in_]', 'ab')

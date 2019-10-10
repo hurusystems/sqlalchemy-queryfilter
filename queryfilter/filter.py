@@ -84,11 +84,12 @@ class QueryFilter(object):
         if not model_field:
             raise InvalidField('Invalid table field (%s)' % qry['field'])
 
-        qry['value'] = self.null2none(value)
+        qry['value'] = value
         qry['field'] = model_field
 
         # ignore query without values
         if qry['value'] or (not qry['value'] and qry['op'] != self.DEFAULT_OPERATOR):
+            qry['value'] = self.null2none(value)
             self.queries.append(qry)
 
     def get_order_by(self):
