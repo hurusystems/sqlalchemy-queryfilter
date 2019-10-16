@@ -7,18 +7,20 @@ __author__ = 'valdergallo@gmail.com'
 def get_version():
     return '.'.join(map(str, __version__))
 
+try:
+    from .filter import (
+        QueryFilter,
+    )
 
-from .filter import (
-    QueryFilter,
-)
+    from .exceptions import (
+        InvalidField,
+        InvalidDialectField
+    )
 
-from .exceptions import (
-    InvalidField,
-    InvalidDialectField
-)
-
-from .helper import (
-    paginate_request,
-    query_manager,
-    get_paginate_display
-)
+    from .helper import (
+        paginate_request,
+        query_manager,
+        get_paginate_display
+    )
+except ModuleNotFoundError:
+    pass
