@@ -5,7 +5,7 @@ query
 
 ### TO Install
 
-> pip install git+https://git.in.hurusystems.com/huru/huru_sqlalchemy_queryfilter.git#egg=queryfilter
+> pip install git+ssh://git@git.in.hurusystems.com:2240/huru/huru_sqlalchemy_queryfilter.git#egg=queryfilter
 
 ### HOW TO USE
 
