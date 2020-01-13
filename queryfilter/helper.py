@@ -36,3 +36,12 @@ def get_paginate_display(qs, request):
     elif code:
         return 1
     return display_length
+
+
+def get_form_request(request):
+    "Get form data from JSON or Body"
+    if request.is_json:
+        post_parser = request.json
+    else:
+        post_parser = dict(request.form)
+    return post_parser
