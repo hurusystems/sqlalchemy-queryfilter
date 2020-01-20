@@ -1,7 +1,9 @@
 from .filter import QueryFilter
+from flask import jsonify
+from flask import request
 
 
-def paginate_request(request):
+def paginate_request(request=request):
     display_length = int(request.args.get('display_length', 20))
     display_start = (int(request.args.get(
         'display_start', 0)) // display_length) + 1
@@ -25,7 +27,7 @@ def query_manager(arguments, model=None):
     return qry.query
 
 
-def get_paginate_display(qs, request):
+def get_paginate_display(qs, request=request):
     "Return the total filtered"
     code = request.view_args.get('code')
     unlimited = request.args.get('unlimited')
@@ -38,10 +40,28 @@ def get_paginate_display(qs, request):
     return display_length
 
 
-def get_form_request(request):
+def get_form_request(request=request):
     "Get form data from JSON or Body"
     if request.is_json:
         post_parser = request.json
     else:
         post_parser = dict(request.form)
     return post_parser
+
+
+def json_response(qs, results, request=request):
+    """
+    Default content for datatables js:
+    return:
+        {
+            'filtered': int,
+            'total': int,
+            'results': list<Objects>,
+        }
+    """
+    content = {
+        'filtered': get_paginate_display(qs),
+        'total': qs.count(),
+        'results': results
+    }
+    return jsonify(content)

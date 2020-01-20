@@ -1,6 +1,6 @@
 # encoding: utf-8
 from __future__ import unicode_literals, absolute_import
-__version__ = (0, 1, 0)
+__version__ = (0, 2, 0)
 __author__ = 'valdergallo@gmail.com'
 
 
@@ -21,7 +21,8 @@ try:
         paginate_request,
         query_manager,
         get_paginate_display,
-        get_form_request
+        get_form_request,
+        json_response
     )
 except ModuleNotFoundError:
     pass
