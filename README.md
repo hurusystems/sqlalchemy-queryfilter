@@ -10,23 +10,17 @@ query
 ### HOW TO USE
 
 ```python
-from queryfilter import query_manager, get_paginate_display
+from queryfilter import query_manager, json_response
 
 so_schema = MyModelSchema(many=True)
 
 
 def view(request):
     qs = query_manager(arguments=request.args, model=MyModel)
-
-    result = so_schema.dump(orders)
+    results = so_schema.dump(orders)
 
     # default content for datatables js
-    content = {
-        'filtered': get_paginate_display(qs, request),
-        'total': qs.count(),
-        'results': result
-    }
-    return jsonify(content)
+    return json_response(qs, results)
 ```
 ### Filters
 
