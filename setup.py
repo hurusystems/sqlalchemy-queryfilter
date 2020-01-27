@@ -40,9 +40,9 @@ def readme():
         return '''Sqlalchemy Queryfilter create default process to use REST filters'''
 
 
-setup(name='sqlalchemy_queryfilter',
-      url='https://git.in.hurusystems.com/huru/huru_sqlalchemy_queryfilter.git',
-      download_url='https://git.in.hurusystems.com/huru/huru_sqlalchemy_queryfilter/tarball/%s/' % queryfilter.get_version(),
+setup(name='sqlalchemy-queryfilter',
+      url='https://git.in.hurusystems.com/huru/sqlalchemy-queryfilter.git',
+      download_url='https://git.in.hurusystems.com/huru/sqlalchemy-queryfilter/tarball/%s/' % queryfilter.get_version(),
       author="valdergallo",
       author_email='valdergallo@gmail.com',
       keywords=['api', 'sqlalchemy', 'queryfilter', 'rest'],
