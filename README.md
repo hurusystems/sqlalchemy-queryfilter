@@ -17,7 +17,7 @@ so_schema = MyModelSchema(many=True)
 
 def view(request):
     qs = query_manager(arguments=request.args, model=MyModel)
-    results = so_schema.dump(orders)
+    results = so_schema.dump(qs)
 
     # default content for datatables js
     return json_response(qs, results)
